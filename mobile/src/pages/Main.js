@@ -83,7 +83,9 @@ function Main( { navigation }){
                             }}>
                             <View style={styles.callout}>
                                 <Text style={styles.devName}>
-                                    {!dev.name && dev.github_username}
+                                    {
+                                        !dev.name && dev.github_username /*Verifica se o "Name" está preenchido, caso não, exibe o login (username)*/
+                                    } 
                                 </Text>
                                 <Text style={styles.devBio}>{dev.bio}</Text>
                                 <Text style={styles.devTechs}>{dev.techs.join(', ')}</Text>
