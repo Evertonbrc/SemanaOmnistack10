@@ -3,7 +3,7 @@ import React from 'react';
 import './styles.css';
 
 function DevItem({ dev }){
-    //Caso o usuário não tenha Nome cadastrado, é atribuído o username como nome.
+    //Caso o usuário não tenha Nome cadastrado, é atribuído o username como nome
     if(!dev.name){
         dev.name = dev.github_username;
     }
