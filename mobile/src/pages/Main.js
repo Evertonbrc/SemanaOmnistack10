@@ -5,13 +5,12 @@ import { requestPermissionsAsync, getCurrentPositionAsync } from 'expo-location'
 import { MaterialIcons } from '@expo/vector-icons';
 
 import api from '../services/api';
+import { connect, disconnect  } from '../services/socket';
 
 function Main( { navigation }){
     const [devs, setDevs] = useState([]);
     const [currentRegion, setCurrentRegion] = useState(null);
     const [techs, setTechs] = useState('');
-
-    let [nomeDesenvolvedor] = useState('');
 
     useEffect(() => {
         async function loadInitialPosition(){
@@ -37,6 +36,10 @@ function Main( { navigation }){
         loadInitialPosition();
     }, []);
 
+    function setupWebsocket() {
+        connect();
+    }
+
     async function loadDevs() {
         const { latitude, longitude } = currentRegion;
 
@@ -46,9 +49,10 @@ function Main( { navigation }){
                 longitude,
                 techs
             }
-        })
+        });
 
         setDevs(response.data.devs);
+        setupWebsocket();
     }
 
     function handleRegionChanged(region) {
@@ -84,7 +88,7 @@ function Main( { navigation }){
                             <View style={styles.callout}>
                                 <Text style={styles.devName}>
                                     {
-                                        !dev.name && dev.github_username /*Verifica se o "Name" está preenchido, caso não, exibe o login (username)*/
+                                        dev.name
                                     } 
                                 </Text>
                                 <Text style={styles.devBio}>{dev.bio}</Text>
